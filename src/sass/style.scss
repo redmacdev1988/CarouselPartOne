@@ -1,0 +1,41 @@
+/* Define standard variables and values for website */
+$bgcolor: lightblue;
+$textcolor: darkblue;
+$fontsize: 18px;
+
+/* Use the variables */
+#gallery {
+  background-color: $bgcolor;
+  color: $textcolor;
+  font-size: $fontsize;
+}
+
+#loadingNote {
+    width: 20%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#loadingNote .item {
+    flex-grow: 1;
+}
+
+#thumbnailList {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.thumbnail {
+    padding: 5px;
+    margin-top: 10px;
+    line-height: 150px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
