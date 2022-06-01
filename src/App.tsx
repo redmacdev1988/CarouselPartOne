@@ -70,7 +70,7 @@ function App() {
         }
 
         <ul>
-            {fpCircularArray.getItems().map((url: string) => {
+            {getCarousel().getItems().map((url: string) => {
                 return (<li key={url}>
                     {url.split('/').splice(-1).pop()}
                 </li>);
