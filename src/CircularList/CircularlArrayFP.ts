@@ -6,51 +6,51 @@ Functional programming implementation of Circular array
 
 import ICircular from "./ICircular";
 
-let _data: readonly string [] = [];
-let _current: number = 0;
-let _counter: number = 0;
+let strArrData: readonly string [] = [];
+let numCurrent: number = 0;
+let numCounter: number = 0;
 
 const _updateWithItems = (newDataArr: string []) => {
-    _data = [...newDataArr];
-    _counter = newDataArr.length;
+    strArrData = [...newDataArr];
+    numCounter = newDataArr.length;
 }
 
-const _insertAtFront = (data: string): string => {
-    _counter++;
-    _data = [data, ..._data];
-    return data;
+const _insertAtFront = (newUrl: string): string => {
+    numCounter++;
+    strArrData = [newUrl, ...strArrData];
+    return newUrl;
 }
 
-const _insertAtEnd = (data: string): string => {
-    _counter++;
-    _data = [..._data, data];
-    return data;
+const _insertAtEnd = (newUrl: string): string => {
+    numCounter++;
+    strArrData = [...strArrData, newUrl];
+    return newUrl;
 }
 
-const _find = (toDelete: string): number => _data.findIndex(item => item === toDelete);
+const _find = (toDelete: string): number => strArrData.findIndex(item => item === toDelete);
 
 const _shiftDown = (index: number) : string []=> {
-    _counter--;
-    return ["", ..._data];
+    numCounter--;
+    return ["", ...strArrData];
 }
 
 const _remove = (value: string) : string | null => {
     const index = _find(value);
     if (index!==-1) {
-        _data = _shiftDown(index);
+        strArrData = _shiftDown(index);
         return value;
     }
     return null;
 }
 
-const _getCurrent = () : string => _data[_current];
-const _next = () => _data[++_current % _counter];
-const _prev = () => _data[--_current % _counter];
-const _numOfItems = () => _counter;
-const _getItems = () => [..._data];
+const _getCurrent = () : string => strArrData[numCounter];
+const _next = () => strArrData[++numCounter % numCounter];
+const _prev = () => strArrData[--numCounter % numCounter];
+const _numOfItems = () => numCounter;
+const _getItems = () => [...strArrData];
 
 const _sort = (reverse: boolean) => {
-    _data = [..._data].sort((a, b) => !reverse ? a.localeCompare(b) : b.localeCompare(a));
+    strArrData = [...strArrData].sort((a, b) => !reverse ? a.localeCompare(b) : b.localeCompare(a));
 }
 
 export default function CircularArrayFP() : ICircular <string> {
