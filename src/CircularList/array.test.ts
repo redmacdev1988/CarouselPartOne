@@ -3,40 +3,36 @@ import CircularArrayFP from './CircularlArrayFP';
 
 describe("FP Circular Array", () => {
     const array = CircularArrayFP();
+    const data = array.createDataArrFP();
     test("Circular Instantiation", () => {
         expect(array).toBeDefined();
     });
 
-    test("updateWithItems", () => {
-        array.updateWithItems(["jan", "feb", "mar", "apr", "may"]);
-        expect(array.numOfItems()).toEqual(5);
+    test("inserts", () => {
+        array.insertAtFront("nov", data);
+        array.insertAtFront("oct", data);
+        array.insertAtFront("mar", data);
+        array.insertAtFront("feb", data);
+        array.insertAtEnd("dec", data);
+        expect(array.numOfItems(data)).toEqual(5);
     });
 
     test("remove, numOfItems", () => {
-        const value = array.remove("jan");
-        expect(value).toEqual("jan");
-        expect(array.numOfItems()).toEqual(4);
+        const value = array.remove("jan", data);
+        expect(value).toEqual(null);
+        expect(array.numOfItems(data)).toEqual(5);
 
-        const value1 = array.remove("feb");
+        const value1 = array.remove("feb", data);
         expect(value1).toEqual("feb");
-        expect(array.numOfItems()).toEqual(3);
+        expect(array.numOfItems(data)).toEqual(4);
 
-        const value2 = array.remove("mar");
+        const value2 = array.remove("mar", data);
         expect(value2).toEqual("mar");
-        expect(array.numOfItems()).toEqual(2);
+        expect(array.numOfItems(data)).toEqual(3);
 
-        const value3 = array.remove("may");
-        expect(value3).toEqual("may");
-        expect(array.numOfItems()).toEqual(1);
-    });array
-
-    test("insertAtEnd, numOfItems", () => {
-        array.insertAtEnd("oct");
-        expect(array.numOfItems()).toEqual(2);
-        array.insertAtEnd("nov");
-        expect(array.numOfItems()).toEqual(3);
-        array.insertAtEnd("dec");
-        expect(array.numOfItems()).toEqual(4);
+        const value3 = array.remove("dec", data);
+        expect(value3).toEqual("dec");
+        expect(array.numOfItems(data)).toEqual(2);
     });
 });
 
@@ -75,7 +71,7 @@ describe("OOP Circular Array", () => {
         myArray.insertAtEnd("x");
         expect(myArray.numOfItems()).toEqual(2);
         myArray.insertAtEnd("y");
-        expect(myArray.numOfItems()).toEqual(3);
+        expect(myArray.numOfItems()).toEqual(3); 
     });
 });
 

@@ -3,9 +3,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Gallery from './Gallery';
-import { fpCircularArray } from './CarouselDS';
+import { fpCircularArray, CarouselDS } from './CarouselDS';
 import './sass/style.scss';
+import { CarouselType } from './CircularList/ICircular';
 
+// FP version
 function App() {
   const [input, setInput] = useState("");
   const [fetchDataClicker, setFetchDataClicker] = useState(true);
@@ -13,7 +15,11 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [sort, setSort] = useState(true);
   const [b, setB] = useState(true); // when this gets updated, whole component re-renders, including our getCarousel
-
+  const [arrayDataObj, setArrayDataObj] = useState<CarouselType>({
+    dataArr: [],
+    numCurrent: 0,
+    numCounter: 0,
+  });
   // depends on state 'fetchDataClicker'
   // returns a memoized function that gets image urls.
   const getImageUrls = useCallback(() => { 
@@ -38,7 +44,7 @@ function App() {
     console.log('getImageUrls callback has been updated. We need to create new Carousel and update it with the results');
     return await getImageUrls().then((results: string []) => { // very slow process if lots of data
       console.log('create new Carousel, update with new fetch results');
-      fpCircularArray.updateWithItems(results);
+      arrayDataObj.dataArr = results;
       setLoading(false);
     });
   }, [getImageUrls]);
@@ -48,7 +54,7 @@ function App() {
   // 1) if carousel is updated from our fetch, then we sort it and return it for cache
   // 2) if sort is updated via click, then we sort it and return it for cache
   const getCarousel = useCallback(() => {
-    fpCircularArray.sort(sort);
+    fpCircularArray.sort(sort, arrayDataObj);
     return fpCircularArray;
   }, [loading, sort]);
 
@@ -66,18 +72,18 @@ function App() {
             <h3 className="item">Fetching images from server</h3>
             <img className="App-logo item" src={logo} alt="loading...." />
           </div> : 
-          <small>fetched {fpCircularArray.numOfItems()} images</small>
+          <small>fetched {fpCircularArray.numOfItems(arrayDataObj)} images</small>
         }
 
         <ul>
-            {getCarousel().getItems().map((url: string) => {
+            {getCarousel().getItems(arrayDataObj).map((url: string) => {
                 return (<li key={url}>
                     {url.split('/').splice(-1).pop()}
                 </li>);
             })}
         </ul>
 
-			  <Gallery carousel={getCarousel} sort={sort} />
+			  <Gallery carousel={getCarousel} sort={sort} data={arrayDataObj} />
       </header>
     </div>
   );
@@ -85,10 +91,8 @@ function App() {
 
 export default App;
 
-
-
-
 /*
+// OOP version
 function App() {
   const [input, setInput] = useState("");
   const [fetchDataClicker, setFetchDataClicker] = useState(true);
@@ -120,7 +124,7 @@ function App() {
   useMemo(async () => {
     console.log('getImageUrls callback has been updated. We need to create new Carousel and update it with the results');
     return await getImageUrls().then((results: string []) => { // very slow process if lots of data
-      console.log('create new Carousel, update with new fetch results');
+      console.log('create new Carousel, update with new fetch results', results);
 
       // update states, re-render
       setCarousel(new CarouselDS(results)); 

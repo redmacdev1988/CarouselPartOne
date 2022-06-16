@@ -12,7 +12,7 @@ export default class CircularArray <T> implements ICircular <T> {
     private counter: number = 0;
 
     constructor() {
-        this.data = new Array(10);
+        this.data = [];
         this.counter = 0;
     }
 
@@ -55,7 +55,7 @@ export default class CircularArray <T> implements ICircular <T> {
     }
 
     public insertAtEnd(data: T) : T | undefined {
-        if (this.counter < this.data.length - 2) {
+        if (this.counter < this.data.length) {
             this.data[this.counter++] = data;
             return data;
         }
