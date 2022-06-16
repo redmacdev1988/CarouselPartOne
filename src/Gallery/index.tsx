@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
+import { CarouselType } from "../CircularList/ICircular";
 interface IProps {
     carousel: any,
-    sort: boolean
+    sort: boolean,
+    data: CarouselType | undefined
 }
 
 function Gallery(props: IProps) {
     // props
-    const { carousel, sort } = props;
+    const { carousel, sort, data} = props;
 
     // state
     const [urls, setUrls] = useState<string [] | undefined>(['nothing']);
     
     // we only re-render (by updating our url) if our parent props have changed
     useEffect(() => {
-        console.log(`fetching items, there are: ${carousel()?.numOfItems()}`);
-        setUrls(carousel()?.getItems()); // 2) then, update our state 'url', which will trigger a re-render
+        setUrls(carousel()?.getItems(data)); // 2) then, update our state 'url', which will trigger a re-render
     }, [carousel, sort]); // 1) if parent state 'sort' or 'carousel' is updated...
 
     // render
