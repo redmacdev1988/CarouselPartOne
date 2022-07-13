@@ -20,10 +20,9 @@ function App() {
     numCurrent: 0,
     numCounter: 0,
   });
-  // depends on state 'fetchDataClicker'
-  // returns a memoized function that gets image urls.
-  const getImageUrls = useCallback(() => { 
 
+
+  const getImageUrls = useCallback(() => { 
     setLoading(true);
     return new Promise<string []>((resolve) => {
       setTimeout(function(): void {
@@ -36,10 +35,11 @@ function App() {
         ]);
       }, 3000);
     });
-  }, [fetchDataClicker]);
+  }, [fetchDataClicker]); // when we update this state, we get a new memoized function.
 
-  // depends on when 'getimageUrls' is updated witha new callback, we execute getimageUrls so that it can fetch
-  // then we update state with its received results, rendering the page.
+  // 1) it looks at when 'getimageUrls' is updated with a new callback, 
+  // 2) when it does, we execute getimageUrls so that it returns urls after 3 seconds (to simulate fetch).
+  // 3) then we update state with its received results, rendering the page.
   useMemo(async () => {
     console.log('getImageUrls callback has been updated. We need to create new Carousel and update it with the results');
     return await getImageUrls().then((results: string []) => { // very slow process if lots of data
@@ -47,7 +47,7 @@ function App() {
       arrayDataObj.dataArr = results;
       setLoading(false);
     });
-  }, [getImageUrls]);
+  }, [getImageUrls]); 
 
   // correct
   // First we need to cache it. Then we need to say under what dependency do we re-cache?
